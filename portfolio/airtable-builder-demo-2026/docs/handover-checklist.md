@@ -1,60 +1,66 @@
-# Client Handover Checklist
+# Handover checklist notes
+
+These are the checks I would run before handing the base to someone else.
+
+Airtable bases can look fine during build, but the real test is whether another person can use it without asking where everything is.
 
 ## Before handover
 
-- Confirm all tables have clear names and descriptions.
-- Remove test records or move them to a demo view.
-- Confirm required fields are obvious and documented.
-- Confirm automations have clear names and owner notes.
-- Confirm automation logs are working.
-- Confirm views are grouped by user role.
+- Rename tables and fields so they are clear.
+- Remove test records or keep them in a clearly marked demo view.
+- Check required fields.
+- Check that linked records are not broken.
+- Check formulas, lookups, and rollups.
+- Check that automations have simple names.
+- Check that the log table is receiving records.
+- Hide old views that are no longer useful.
 
-## Training notes
+## User walkthrough
 
-Walk the client through:
+I would walk the team through these flows:
 
-1. How to create a client
-2. How to create a project
-3. How tasks are generated
-4. How asset approvals work
-5. How to read dashboards
-6. How to troubleshoot automation logs
+1. Add a new client
+2. Add a new project
+3. Move a project into production
+4. Check the generated tasks
+5. Add or update an asset
+6. Record an approval decision
+7. See invoice follow-up
+8. Check the dashboard or project health view
 
-## Documentation to provide
+## Admin notes to leave behind
 
-- Base architecture overview
-- Field dictionary
-- Automation map
-- Known limitations
-- Admin owner notes
-- Future improvement list
+- What each table is for
+- Which fields should not be edited manually
+- Which automations are active
+- What to check if an automation fails
+- How project health is calculated
+- What is still rough or pending
 
-## Post-handover support plan
+## First week after handover
 
-Week 1:
+- Watch how people actually use the base.
+- Fix confusing field names.
+- Remove views no one uses.
+- Add filters where people keep asking the same question.
+- Check if any automation created duplicates.
 
-- Fix setup mistakes.
-- Answer user questions.
-- Confirm automations are firing correctly.
+## Second pass
 
-Week 2:
+After the team has used the base for a while, I would review:
 
-- Review actual usage patterns.
-- Remove unnecessary views.
-- Add missing filters or dashboards.
+- Are the project stages still correct?
+- Are task checklists too long or too short?
+- Are approval notes easy to find?
+- Is the invoice tracker useful enough?
+- Should anything sync with another tool?
 
-Month 1:
+## Done enough for handover
 
-- Review reporting accuracy.
-- Improve automation edge cases.
-- Decide whether external API sync is needed.
+I would consider the base ready when:
 
-## Success criteria
-
-The system is ready when:
-
-- A non-technical user can create a project without help.
-- Project managers can see blocked work in one view.
-- Asset approvals are trackable.
-- Completed projects are visible to finance.
-- Automation failures are logged clearly.
+- A user can create a project without help.
+- A project manager can see blocked or overdue work quickly.
+- Review decisions are easy to find later.
+- Completed projects do not disappear from billing follow-up.
+- Admin can check automation logs without opening every automation.
