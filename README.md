@@ -1,19 +1,22 @@
-# Airtable Portfolio Demos
+# Airtable build notes
 
-This repository contains Airtable architecture and automation samples for CRM, project operations, production workflows, asset approvals, and reporting.
+This repo is where I keep small Airtable build examples and working notes.
 
-## Demos
+Right now I am focusing on operations systems: simple CRMs, project tracking, production workflows, approvals, billing follow-up, and the automations around those pieces.
 
-- [`portfolio/airtable-builder-demo-2026`](portfolio/airtable-builder-demo-2026): Operations CRM + production workflow sample for creative, media, entertainment, or CPG teams.
+The goal is not to make a fancy sample app. I want to show how I usually think through an Airtable build before and during implementation:
 
-## What this repo shows
+- what tables are needed
+- which fields should be linked records
+- which parts should be automated
+- where things can break
+- what should be documented before handover
 
-- Airtable base architecture thinking
-- Linked record schema design
-- Automation trigger mapping
-- Airtable scripting examples
-- API integration examples using TypeScript
-- Client handover documentation
+## Current demo
+
+- [`portfolio/airtable-builder-demo-2026`](portfolio/airtable-builder-demo-2026)
+
+This demo is an operations CRM and production tracker for a small team handling clients, projects, assets, reviews, and invoices.
 
 ## Main demo link
 
