@@ -1,10 +1,10 @@
-# Base Architecture
+# Base architecture notes
 
-## Design goal
+These are the first-pass notes I would use before building the Airtable base.
 
-Create a simple but scalable Airtable operating system for teams managing clients, projects, assets, approvals, and billing.
+The main thing I want to avoid is turning Airtable into a messy spreadsheet with too many duplicated fields. The base should be easy to understand, easy to filter, and easy to hand over.
 
-## Table relationships
+## Relationship sketch
 
 ```text
 Clients
@@ -16,99 +16,138 @@ Clients
   -> Automation Logs
 ```
 
-## Clients table
+Projects are the center of the base. Most tables link back to Projects because that is usually how the team will search, filter, and report the work.
 
-Recommended fields:
+## Clients
 
-- Client Name: primary field
-- Industry: single select
-- Account Owner: collaborator
-- Status: lead, active, paused, inactive
-- HubSpot ID: text
-- Last Contacted: date
-- Notes: long text
+Use this table for company / brand level info.
 
-## Projects table
+Fields I would start with:
 
-Recommended fields:
+- Client Name
+- Industry
+- Account Owner
+- Status
+- HubSpot ID or external CRM ID
+- Last Contacted
+- Notes
 
-- Project Name: primary field
-- Client: linked record to Clients
-- Stage: intake, scoped, ready for production, in production, review, complete, archived
-- Budget: currency
-- Deadline: date
-- Project Owner: collaborator
-- Health: green, amber, red
-- Scope Summary: long text
+Keep this table clean. If the same client has 10 projects, the client details should not be copied into all 10 project records.
 
-## Tasks table
+## Projects
 
-Recommended fields:
+This is the main workflow table.
 
-- Task Name: primary field
-- Project: linked record to Projects
-- Assignee: collaborator
-- Due Date: date
-- Status: not started, in progress, blocked, done
-- Priority: low, normal, high, urgent
-- Task Type: admin, design, production, review, delivery
+Fields I would start with:
 
-## Assets table
+- Project Name
+- Client
+- Stage
+- Budget
+- Deadline
+- Project Owner
+- Health
+- Scope Summary
 
-Recommended fields:
+Possible stages:
 
-- Asset Name: primary field
-- Project: linked record to Projects
-- Asset Type: video, image, copy, document, product shot, other
-- Frame.io URL: URL
-- Approval Status: draft, internal review, client review, approved, rejected
-- Version: number
+- Intake
+- Scoped
+- Ready for Production
+- In Production
+- Review
+- Complete
+- Archived
 
-## Approvals table
+The stage field should drive most of the views and automations.
 
-Recommended fields:
+## Tasks
 
-- Approval ID: formula or autonumber
-- Asset: linked record to Assets
-- Reviewer: email or collaborator
-- Decision: pending, approved, rejected
-- Comments: long text
-- Decision Date: date
+Tasks are the actual work items.
 
-## Invoices table
+Fields I would start with:
 
-Recommended fields:
+- Task Name
+- Project
+- Assignee
+- Due Date
+- Status
+- Priority
+- Task Type
 
-- Invoice ID: primary field
-- Project: linked record to Projects
-- Client: lookup from Projects
-- Amount: currency
-- Due Date: date
-- Paid Status: unpaid, partial, paid, overdue
+I would not overbuild task management in the first version. Start with the few task types the team really needs, then add detail only after testing.
 
-## Automation Logs table
+## Assets
 
-Recommended fields:
+Use this for files, creative output, or deliverables that need review.
 
-- Log ID: autonumber
-- Trigger Name: text
-- Source Table: text
-- Source Record ID: text
-- Result: success, warning, error
-- Message: long text
-- Created Time: created time
+Fields I would start with:
 
-## Interface suggestions
+- Asset Name
+- Project
+- Asset Type
+- External File URL
+- Approval Status
+- Version
 
-- Executive dashboard: project health, overdue tasks, revenue pipeline
-- Project manager view: active projects, blocked tasks, upcoming deadlines
-- Production view: asset list, review status, revision queue
-- Finance view: completed projects, invoices due, overdue payments
+The external file URL could point to Drive, Dropbox, Frame.io, or any file review tool the team already uses.
 
-## Build principles
+## Approvals
 
-- Keep formula fields readable.
-- Use linked records instead of duplicated text where possible.
-- Add automation logs early so future debugging is easier.
-- Avoid too many single-use views.
-- Create one clean interface per user role.
+This keeps review decisions separate from the asset itself.
+
+Fields I would start with:
+
+- Approval ID
+- Asset
+- Reviewer
+- Decision
+- Comments
+- Decision Date
+
+I prefer this because approval history can grow messy if every decision is stored inside the asset record only.
+
+## Invoices
+
+This is only for follow-up, not full accounting.
+
+Fields I would start with:
+
+- Invoice ID
+- Project
+- Client lookup
+- Amount
+- Due Date
+- Paid Status
+
+For a real build, I would confirm whether invoices are created manually, exported to accounting software, or synced from another system.
+
+## Automation Logs
+
+This table is for debugging.
+
+Fields I would start with:
+
+- Trigger Name
+- Source Table
+- Source Record ID
+- Result
+- Message
+- Created Time
+
+I like adding this early because Airtable automations can fail quietly, and the client usually needs somewhere to check what happened.
+
+## Views / interfaces to build later
+
+- Project manager view: active projects, overdue tasks, blocked tasks
+- Production view: task checklist and asset review queue
+- Finance view: complete projects and unpaid invoices
+- Owner view: project health and upcoming deadlines
+
+## Notes to confirm during build
+
+- Which user roles actually need Airtable access?
+- Are assets reviewed in Airtable or only linked from another tool?
+- Should task checklists be standard or different by project type?
+- What should count as a risky project?
+- Is billing handled inside Airtable or just tracked there?
