@@ -1,8 +1,8 @@
 {
-  "name": "airtable-portfolio-demos",
-  "version": "1.0.0",
+  "name": "airtable-build-notes",
+  "version": "0.1.0",
   "private": true,
-  "description": "Airtable builder portfolio demos with schema, automation maps, and TypeScript integration examples.",
+  "description": "Working Airtable build notes and small automation examples.",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
