@@ -1,0 +1,20 @@
+{
+  "name": "airtable-portfolio-demos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Airtable builder portfolio demos with schema, automation maps, and TypeScript integration examples.",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
