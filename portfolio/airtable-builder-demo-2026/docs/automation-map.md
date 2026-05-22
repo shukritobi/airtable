@@ -1,96 +1,134 @@
-# Automation Map
+# Automation map notes
 
-## Automation 1: Create project task checklist
+These are the first automations I would test for this base.
+
+I would start small. Airtable automations are useful, but they can also make a base harder to debug if too many things happen in the background.
+
+## 1. Create the project checklist
 
 Trigger:
 
 - Table: Projects
-- Condition: Stage changes to `Ready for Production`
+- When: Stage changes to `Ready for Production`
 
 Action:
 
-- Create linked task records from a standard checklist.
-- Add due dates relative to project deadline.
-- Log the created tasks in Automation Logs.
+- Create the standard production tasks
+- Link each task to the project
+- Set the basic status and priority
+- Write a row in Automation Logs
 
-Reason:
+Why:
 
-This prevents project managers from manually creating the same task set again and again.
+Every project usually starts with the same few steps. Creating those tasks automatically removes repeated setup work.
 
-## Automation 2: Asset ready for review
+Checks:
+
+- Should all projects use the same checklist?
+- Should deadlines be based on project due date or project start date?
+- How do we stop duplicate tasks if the stage is changed twice?
+
+## 2. Asset moves into review
 
 Trigger:
 
 - Table: Assets
-- Condition: Approval Status changes to `Client Review`
+- When: Approval Status changes to `Client Review`
 
 Action:
 
-- Send notification to project owner.
-- Add review deadline.
-- Create Approval record if missing.
+- Create or update an approval record
+- Link the approval to the asset
+- Add reviewer notes if they already exist
 
-Reason:
+Why:
 
-Keeps review requests trackable instead of buried in messages.
+Reviews are easier to track when the decision is stored as a record instead of being hidden in comments or email.
 
-## Automation 3: Rejected approval creates revision task
+Checks:
+
+- Who should be the reviewer?
+- Does review happen inside Airtable or in another tool?
+- Is a notification needed?
+
+## 3. Rejected approval creates revision task
 
 Trigger:
 
 - Table: Approvals
-- Condition: Decision changes to `Rejected`
+- When: Decision changes to `Rejected`
 
 Action:
 
-- Create task linked to the same project.
-- Copy reviewer comments into task notes.
-- Set priority to high.
+- Create a revision task
+- Link it to the project
+- Copy the comments into the task notes
+- Set priority to high
 
-Reason:
+Why:
 
-Rejected approvals should immediately become actionable production work.
+A rejected item should become work for someone, not just a status change.
 
-## Automation 4: Completed project creates invoice tracker
+Checks:
+
+- What if the comments are empty?
+- Should this go to the project owner or production person?
+- Should one rejection create one task or multiple tasks?
+
+## 4. Complete project creates invoice follow-up
 
 Trigger:
 
 - Table: Projects
-- Condition: Stage changes to `Complete`
+- When: Stage changes to `Complete`
 
 Action:
 
-- Create invoice record.
-- Pull client and budget fields from project.
-- Set paid status to unpaid.
+- Create an invoice follow-up record
+- Link it to the project
+- Pull basic client and amount fields
+- Set status to unpaid
 
-Reason:
+Why:
 
-Reduces missed billing after project delivery.
+This keeps billing follow-up visible after delivery.
 
-## Automation 5: Nightly reporting sync
+Checks:
+
+- Is the project budget the same as invoice amount?
+- Are deposits needed?
+- Is this only a tracker or does it need to sync elsewhere?
+
+## 5. Daily project health check
 
 Trigger:
 
-- Scheduled job once per night.
+- Scheduled once a day
 
 Action:
 
-- Read active projects.
-- Calculate health based on deadline and stage.
-- Update dashboard/reporting fields.
-- Log sync results.
+- Read active projects
+- Compare stage and deadline
+- Update health field
+- Log the number of records checked
 
-Reason:
+Why:
 
-Keeps dashboards current without manual checking.
+Project health should not rely only on someone remembering to update it.
 
-## QA checks
+Checks:
 
-Before enabling automations:
+- What counts as red, amber, or green?
+- Should blocked tasks affect health?
+- Should waiting for review affect health?
 
-- Test with duplicate project records.
-- Test records with missing deadline.
-- Test rejected approval with missing project link.
-- Confirm automation log records are created.
-- Confirm no automation loops are triggered.
+## QA list
+
+Before turning on any automation:
+
+- Test missing deadlines
+- Test duplicate project names
+- Test rejected approvals with no comments
+- Test changing the same stage twice
+- Check that duplicate tasks are not created
+- Check the log table after every run
