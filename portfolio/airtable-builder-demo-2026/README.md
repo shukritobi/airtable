@@ -1,61 +1,54 @@
-# Airtable Builder Demo: Operations CRM + Production Workflow
+# Airtable builder demo: ops CRM + production tracker
 
-A compact demo showing how I would design, document, and automate a real Airtable operating system for a service business or media/production team.
+This is a small Airtable build example for a common workflow: clients, projects, tasks, assets, reviews, and invoice follow-up.
 
-This is not connected to a live Airtable base. It is a portfolio sample that demonstrates system thinking, Airtable schema design, automation logic, API integration patterns, and handover documentation.
+I am keeping the example simple on purpose. The point is to show the thinking behind the base structure, not to overcomplicate it with too many automations.
 
-## What this demo covers
+## Working scenario
 
-- Airtable base architecture for clients, projects, tasks, assets, approvals, and invoices
-- Status-driven workflow design for operations teams
-- Automation patterns for notifications, CRM updates, and task follow-ups
-- API-safe TypeScript examples for Airtable scripting and external sync jobs
-- Documentation style that a non-technical team can use after handover
+A small team needs one Airtable base to track:
 
-## Example use case
+1. clients
+2. active projects
+3. production tasks
+4. files or deliverables
+5. approvals and revision notes
+6. invoice follow-up
+7. basic reporting
 
-A creative, media, entertainment, or CPG team needs one Airtable system to manage:
+Before building the actual base, I would usually map the tables first, then decide what should be linked records, formulas, lookups, rollups, or automation triggers.
 
-1. Incoming clients or brands
-2. Project briefs and scopes
-3. Production tasks and deadlines
-4. Asset review and approval
-5. Team notifications
-6. Simple reporting dashboards
+## Tables I would start with
 
-## Suggested Airtable base tables
-
-| Table | Purpose | Key fields |
+| Table | Why it exists | Notes |
 | --- | --- | --- |
-| Clients | Company or brand records | Name, industry, owner, status, HubSpot ID |
-| Projects | Main work items | Project name, client, stage, budget, deadline |
-| Tasks | Execution checklist | Task, project, assignee, due date, status |
-| Assets | Creative/media files | Project, asset type, Frame.io URL, approval status |
-| Approvals | Client/internal review | Asset, reviewer, decision, comments |
-| Invoices | Billing tracker | Project, amount, due date, paid status |
-| Automation Logs | Audit trail | Trigger, record ID, result, timestamp |
+| Clients | One record per company or brand | Keep account info here instead of repeating it everywhere |
+| Projects | Main job or campaign | This is the center of the workflow |
+| Tasks | Production and admin work | Some tasks can be created from a checklist |
+| Assets | Files or deliverables that need review | Can link to Drive, Dropbox, Frame.io, or similar tools |
+| Approvals | Review decisions and comments | Keeps decisions easier to track later |
+| Invoices | Billing follow-up | Simple tracker, not a full accounting setup |
+| Automation Logs | Notes from scripts and automations | Useful when something does not fire properly |
 
-## Automation examples
+## Automations to test first
 
-- When a project stage changes to `Ready for Production`, generate a task checklist.
-- When an asset is marked `Needs Review`, notify the project owner.
-- When an approval is `Rejected`, create a revision task.
-- When a project is marked `Complete`, generate an invoice tracking record.
-- Nightly sync pushes selected project/client fields into a reporting layer.
+- When a project is marked `Ready for Production`, create the starting task checklist.
+- When an asset moves to `Client Review`, create or update an approval record.
+- When an approval is rejected, create a revision task with the comments.
+- When a project is complete, create an invoice follow-up record.
+- Run a scheduled check to mark projects as green, amber, or red.
 
-## Files in this demo
+## Files here
 
-- `docs/base-architecture.md` explains the Airtable base structure.
-- `docs/automation-map.md` explains automation triggers and logic.
-- `docs/handover-checklist.md` provides client handover notes.
-- `src/airtableClient.ts` contains a typed Airtable API client.
-- `src/syncProjects.ts` shows a safe external sync job.
-- `src/webhookRouter.ts` shows webhook-style routing logic.
-- `airtable-scripts/01-create-project-checklist.js` shows an Airtable automation script.
-- `sample-data/projects.csv` includes example data.
+- `docs/base-architecture.md`: table and field notes
+- `docs/automation-map.md`: automation planning notes
+- `docs/handover-checklist.md`: checks before giving the base to another user
+- `airtable-scripts/01-create-project-checklist.js`: Airtable automation script example
+- `src/airtableClient.ts`: small TypeScript Airtable API wrapper
+- `src/syncProjects.ts`: scheduled sync example
+- `src/webhookRouter.ts`: webhook-style task creation example
+- `sample-data/projects.csv`: sample project data
 
-## Why this matters
+## Status
 
-Good Airtable work is not just creating tables. It is making the system understandable, scalable, and safe for the team using it every day.
-
-My approach is to build the base, document the logic, add lightweight automation, and leave the client with a system they can maintain.
+This is a working demo/spec. The next step would be to build the base in Airtable, test the scripts on dummy records, and adjust the fields after seeing how the workflow behaves with real data.
